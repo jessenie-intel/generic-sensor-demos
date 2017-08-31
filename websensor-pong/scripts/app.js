@@ -367,40 +367,40 @@ function createScene()  // A modified version of the scene from http://buildnewg
     }
 
     for (let i=0; i<5; i++) {
-	    var backdrop = new THREE.Mesh(
+        var backdrop = new THREE.Mesh(
 
-	      new THREE.CubeGeometry( 
-	      30, 
-	      30, 
-	      300, 
-	      1, 
-	      1,
-	      1 ),
+          new THREE.CubeGeometry( 
+          30,
+          30,
+          300,
+          1,
+          1,
+          1 ),
 
-	      pillarMaterial);
-	      
-	    backdrop.position.x = -50 + i * 100;
-	    backdrop.position.y = -230;
-	    backdrop.position.z = -30;
-	    backdrop.castShadow = true;
-	    backdrop.receiveShadow = true;		
-	    scene.add(backdrop);	
+          pillarMaterial);
+          
+        backdrop.position.x = -50 + i * 100;
+        backdrop.position.y = -230;
+        backdrop.position.z = -30;
+        backdrop.castShadow = true;
+        backdrop.receiveShadow = true;
+        scene.add(backdrop);
     }
 
     // Add a ground plane for decoration
     let ground = new THREE.Mesh(
         new THREE.CubeGeometry( 
-        1000, 
-        1000, 
-        3, 
-        1, 
+        1000,
+        1000,
+        3,
+        1,
         1,
         1 ),
         groundMaterial);
     ground.position.z = -132;
-    ground.receiveShadow = true;	
-    scene.add(ground);		
-	
+    ground.receiveShadow = true;
+    scene.add(ground);
+
     // Create a point light to make the scene look nicer
     let light = new THREE.PointLight(0xF8D898);
     light.position.x = -1000;
@@ -441,18 +441,18 @@ function createScene()  // A modified version of the scene from http://buildnewg
     mesh1.rotateZ(-Math.PI/2);
     mesh1.rotateX(Math.PI/2);
 
-    renderer.shadowMap.enabled = true;		
+    renderer.shadowMap.enabled = true;
 }
 
 // The game loop
 function loop() {
-	ballPhysics();
-	paddlePhysics();
-	cameraMovement();
-	playerPaddleMovement();
-	opponentPaddleMovement();
-	renderer.render(scene, camera);
-	requestAnimationFrame(loop);                
+    ballPhysics();
+    paddlePhysics();
+    cameraMovement();
+    playerPaddleMovement();
+    opponentPaddleMovement();
+    renderer.render(scene, camera);
+    requestAnimationFrame(loop);
 }
 
 function ballPhysics() {
@@ -463,9 +463,9 @@ function ballPhysics() {
     // Clamp the speed
     ballSpeed = Math.max(ballSpeedInitial, Math.min(ballSpeed, 6));
 
-	// Ball goes off the player's side - opponent scores
-	if (ball.position.x <= -fieldWidth/2) {	
-	    player2.increaseScore();
+    // Ball goes off the player's side - opponent scores
+    if (ball.position.x <= -fieldWidth/2) {
+        player2.increaseScore();
         resetBall(player2);
         time = 0;       // Reset timer
 
@@ -475,7 +475,7 @@ function ballPhysics() {
             matchScoreCheck();
         }
 
-	// Ball goes off the CPU's side - player scores
+    // Ball goes off the CPU's side - player scores
     } else if (ball.position.x >= fieldWidth/2) {
         player1.increaseScore();
         resetBall(player1);
@@ -484,27 +484,27 @@ function ballPhysics() {
             updateScoreboard("Bold 40px Arial", player1.score + '-' + player2.score);
             matchScoreCheck();
         }
-	}
-	
-	// Bounce off table border to keep the ball on the table
-	if (ball.position.y <= -fieldHeight/2) {
-		ballDirY = -ballDirY;
+    }
+
+    // Bounce off table border to keep the ball on the table
+    if (ball.position.y <= -fieldHeight/2) {
+        ballDirY = -ballDirY;
     } else if (ball.position.y >= fieldHeight/2) {
-		ballDirY = -ballDirY;
-	}
-	
-	// Move the ball
-	ball.position.x += ballDirX * ballSpeed;
-	ball.position.y += ballDirY * ballSpeed;
-	
-	// Limit the ball's y-speed to make it easier
+        ballDirY = -ballDirY;
+    }
+
+    // Move the ball
+    ball.position.x += ballDirX * ballSpeed;
+    ball.position.y += ballDirY * ballSpeed;
+
+    // Limit the ball's y-speed to make it easier
     // (ball does not go too fast in left-right direction)
     let maxYSpeed = Math.min(1.2 * ballSpeedInitial, ballSpeed);
-	if (ballDirY > maxYSpeed) {
-		ballDirY = maxYSpeed;
-	} else if (ballDirY < -maxYSpeed) {
-		ballDirY = -maxYSpeed;
-	}
+    if (ballDirY > maxYSpeed) {
+        ballDirY = maxYSpeed;
+    } else if (ballDirY < -maxYSpeed) {
+        ballDirY = -maxYSpeed;
+    }
 }
 
 // Handles opponent paddle movement and logic
@@ -513,7 +513,7 @@ function opponentPaddleMovement() {
     paddle2DirY = (ball.position.y - player2.paddle.position.y) * difficulty;
 
     // In case the above produces a value above max paddle speed, we clamp it
-    if (Math.abs(paddle2DirY) <= paddleSpeed) {	
+    if (Math.abs(paddle2DirY) <= paddleSpeed) {
         player2.paddle.position.y += paddle2DirY;
 
     // If the value is too high, we have to limit speed to paddleSpeed
